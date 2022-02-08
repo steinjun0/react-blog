@@ -39,7 +39,7 @@ function AboutMe() {
   `;
 
   const TileTitle = styled("h1")`
-    font-size: 36px;
+    font-size: 52px;
     font-weight: 500;
   `;
   const TileSubTitle = styled("ul")`
@@ -52,8 +52,8 @@ function AboutMe() {
     padding: 0;
   `;
   const TileContent = styled("li")`
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     list-style-type: none;
   `;
   const data = [

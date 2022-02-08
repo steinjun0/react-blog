@@ -21,9 +21,13 @@ function PostCard({ categories, title, subTitle }) {
     width: 282px;
     height: 155px;
     margin-top: 74px;
+    margin-bottom: 24px;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 2px solid #c4c4c4;
+    // box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    // padding: 12px;
+    // border: 1px solid #ddd;
   `;
   const PostCardCategory = styled("div")`
     font-size: 14px;
