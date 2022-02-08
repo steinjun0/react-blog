@@ -12,6 +12,7 @@ function Gnb() {
     background-color: black;
     color: white;
     height: 86px;
+    width: 100%;
   `;
   const GnbTitle = styled("h1")`
     margin-left: 16px;
@@ -26,15 +27,13 @@ function Gnb() {
     // margin-right: 16px;
   `;
   return (
-    <div>
-      <GnbCommon>
-        <GnbTitle>Stein.log</GnbTitle>
-        <GnbIconGroup>
-          <GitHubIcon></GitHubIcon>
-          <InstagramIcon></InstagramIcon>
-        </GnbIconGroup>
-      </GnbCommon>
-    </div>
+    <GnbCommon>
+      <GnbTitle>Stein.log</GnbTitle>
+      <GnbIconGroup>
+        <GitHubIcon></GitHubIcon>
+        <InstagramIcon></InstagramIcon>
+      </GnbIconGroup>
+    </GnbCommon>
   );
 }
 export default Gnb;
