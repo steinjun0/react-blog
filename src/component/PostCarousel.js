@@ -1,6 +1,10 @@
 import { Box, styled } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
+
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 PostCard.propTypes = {
   categories: PropTypes.array,
@@ -42,14 +46,54 @@ function PostCard({ categories, title, subTitle }) {
   );
 }
 
+function useShowPosts(posts) {
+  const [showPosts, setShowPosts] = useState([]);
+  function sliceShowPosts(windowWidth = 1281) {
+    if (posts.length > 4 && 1280 <= windowWidth) {
+      setShowPosts(posts.slice(0, 4));
+    } else if (posts.length > 3 && 960 < windowWidth && windowWidth <= 1280) {
+      setShowPosts(posts.slice(0, 3));
+    } else if (posts.length > 2 && 768 < windowWidth && windowWidth <= 960) {
+      setShowPosts(posts.slice(0, 2));
+    } else if (posts.length > 1 && windowWidth <= 768) {
+      setShowPosts(posts.slice(0, 1));
+    } else {
+      setShowPosts(posts);
+    }
+  }
+
+  const isDesktop = useMediaQuery({
+    query: "(min-width:1280px)",
+  });
+  const isDesktopSmall = useMediaQuery({
+    query: "(min-width:960px) and (max-width:1280px)",
+  });
+  const isTablet = useMediaQuery({
+    query: "(min-width:768px) and (max-width:960px)",
+  });
+  const isPhone = useMediaQuery({
+    query: "(max-width:768px)",
+  });
+
+  useEffect(() => {
+    sliceShowPosts(window.innerWidth);
+  }, [posts, isDesktop, isDesktopSmall, isTablet, isPhone]);
+
+  return showPosts;
+}
+
 function PostCarousel() {
   const PostCarouselWrapper = styled("div")`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   `;
   const [posts, setPosts] = useState([]);
+  const showPosts = useShowPosts(posts);
+
   useEffect(() => {
+    // To do... getMainPagePosts API
     setPosts([
       {
         categories: ["Django", "Docker"],
@@ -76,7 +120,8 @@ function PostCarousel() {
 
   return (
     <PostCarouselWrapper>
-      {posts.map((post, index) => {
+      <ChevronLeftIcon fontSize="large" style={{ marginTop: "74px" }} />
+      {showPosts.map((post, index) => {
         return (
           <PostCard
             key={index}
@@ -86,6 +131,7 @@ function PostCarousel() {
           />
         );
       })}
+      <ChevronRightIcon fontSize="large" style={{ marginTop: "74px" }} />
     </PostCarouselWrapper>
   );
 }
