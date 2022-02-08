@@ -1,7 +1,8 @@
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 import Gnb from "./component/Gnb";
 import AboutMe from "./component/AboutMe";
+import PostCarousel from "./component/PostCarousel";
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       <Gnb></Gnb>
       <div className="App">
         <AboutMe />
-        <header className="App-header">
+        <PostCarousel />
+        {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
@@ -22,7 +24,7 @@ function App() {
           >
             Learn React
           </a>
-        </header>
+        </header> */}
       </div>
     </div>
   );

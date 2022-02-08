@@ -5,6 +5,8 @@ const berryPeri = "#6868ac";
 function AboutMe() {
   const AboutMeWrapper = styled(Box)`
     display: flex;
+    flex-direction: row;
+    justify-content: center;
   `;
   const BackgroundDeco = styled(Box)`
     width: calc(50% + 360px);
@@ -15,11 +17,14 @@ function AboutMe() {
     z-index: -1;
   `;
   const TileBlock = styled(Box)`
-    width: 480px;
-    height: 480px;
+    width: 460px;
+    height: 460px;
     margin-top: 74px;
-    margin-left: 160px;
+    // margin-left: 160px;
     box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.25);
+  `;
+  const TileBlockImage = styled(TileBlock)`
+    margin-right: 80px;
   `;
   const TileBlockText = styled(TileBlock)`
     display: flex;
@@ -29,6 +34,8 @@ function AboutMe() {
     background-color: ${berryPeri};
     color: white;
     padding-left: 32px;
+    box-sizing: border-box;
+    margin-left: 80px;
   `;
 
   const TileTitle = styled("h1")`
@@ -60,15 +67,15 @@ function AboutMe() {
   return (
     <AboutMeWrapper>
       <BackgroundDeco></BackgroundDeco>
-      <TileBlock>
-        <img style={{ width: "480px" }} src={junProfile} alt="" />
-      </TileBlock>
+      <TileBlockImage>
+        <img style={{ width: "460px" }} src={junProfile} alt="" />
+      </TileBlockImage>
       <TileBlockText>
         <div>
           <TileTitle>About Me</TileTitle>
           {data.map((item, index) => {
             return (
-              <TileSubTitle>
+              <TileSubTitle key={index}>
                 {item.subTitle}
                 <TileContent>
                   &nbsp;&nbsp;&nbsp;&nbsp;{item.content}
