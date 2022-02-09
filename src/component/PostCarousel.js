@@ -6,6 +6,8 @@ import { useMediaQuery } from "react-responsive";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+import { DESKTOP_WIDTH, DESKTOP_SMALL_WIDTH, TABLET_WIDTH } from "../App";
+
 PostCard.propTypes = {
   categories: PropTypes.array,
   title: PropTypes.string.isRequired,
@@ -53,13 +55,21 @@ function PostCard({ categories, title, subTitle }) {
 function useShowPosts(posts) {
   const [showPosts, setShowPosts] = useState([]);
   function sliceShowPosts(windowWidth = 1281) {
-    if (posts.length > 4 && 1280 <= windowWidth) {
+    if (posts.length > 4 && DESKTOP_WIDTH <= windowWidth) {
       setShowPosts(posts.slice(0, 4));
-    } else if (posts.length > 3 && 960 < windowWidth && windowWidth <= 1280) {
+    } else if (
+      posts.length > 3 &&
+      DESKTOP_SMALL_WIDTH < windowWidth &&
+      windowWidth <= DESKTOP_WIDTH
+    ) {
       setShowPosts(posts.slice(0, 3));
-    } else if (posts.length > 2 && 768 < windowWidth && windowWidth <= 960) {
+    } else if (
+      posts.length > 2 &&
+      TABLET_WIDTH < windowWidth &&
+      windowWidth <= DESKTOP_SMALL_WIDTH
+    ) {
       setShowPosts(posts.slice(0, 2));
-    } else if (posts.length > 1 && windowWidth <= 768) {
+    } else if (posts.length > 1 && windowWidth <= TABLET_WIDTH) {
       setShowPosts(posts.slice(0, 1));
     } else {
       setShowPosts(posts);

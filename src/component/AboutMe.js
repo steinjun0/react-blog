@@ -25,6 +25,9 @@ function AboutMe() {
   `;
   const TileBlockImage = styled(TileBlock)`
     margin-right: 80px;
+    @media only screen and (min-width: 1280px) {
+      width: ${(props) => (props.span ? (props.span / 12) * 100 : "8.33")}%;
+    }
   `;
   const TileBlockText = styled(TileBlock)`
     display: flex;
@@ -36,6 +39,9 @@ function AboutMe() {
     padding-left: 32px;
     box-sizing: border-box;
     margin-left: 80px;
+    @media only screen and (min-width: 1280px) {
+      width: ${(props) => (props.span ? (props.span / 12) * 100 : "8.33")}%;
+    }
   `;
 
   const TileTitle = styled("h1")`
