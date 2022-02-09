@@ -1,5 +1,7 @@
 import { Box, styled } from "@mui/material";
 import junProfile from "../junProfile.jpg";
+import { DESKTOP_WIDTH, DESKTOP_SMALL_WIDTH, TABLET_WIDTH } from "../App";
+
 const berryPeri = "#6868ac";
 
 function AboutMe() {
@@ -19,14 +21,44 @@ function AboutMe() {
   const TileBlock = styled(Box)`
     width: 460px;
     height: 460px;
-    margin-top: 74px;
+    margin-top: 72px;
     // margin-left: 160px;
     box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.25);
   `;
-  const TileBlockImage = styled(TileBlock)`
+  const TileBlockImage = styled("img")`
+    margin-top: 72px;
     margin-right: 80px;
-    @media only screen and (min-width: 1280px) {
-      width: ${(props) => (props.span ? (props.span / 12) * 100 : "8.33")}%;
+    width: 460px;
+    height: 460px;
+    box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.25);
+    @media only screen and (max-width: ${DESKTOP_WIDTH}px) {
+      margin-right: 40px;
+      margin-top: 218px;
+      width: 330px;
+      height: 330px;
+    }
+    @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
+      position: absolute;
+      margin-left: 215px;
+      margin-top: 230px;
+      width: 174px;
+      height: 174px;
+    }
+  `;
+  const TileBlockImageSmall = styled(TileBlockImage)`
+    @media only screen and (min-width: ${DESKTOP_SMALL_WIDTH}px) {
+      display: none;
+    }
+    @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
+      display: block;
+    }
+  `;
+  const TileBlockImageBig = styled(TileBlockImage)`
+    @media only screen and (min-width: ${DESKTOP_SMALL_WIDTH}px) {
+      display: block;
+    }
+    @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
+      display: none;
     }
   `;
   const TileBlockText = styled(TileBlock)`
@@ -39,8 +71,9 @@ function AboutMe() {
     padding-left: 32px;
     box-sizing: border-box;
     margin-left: 80px;
-    @media only screen and (min-width: 1280px) {
-      width: ${(props) => (props.span ? (props.span / 12) * 100 : "8.33")}%;
+    @media only screen and (max-width: ${DESKTOP_WIDTH}px) {
+      margin-left: 40px;
+      margin-top: 36px;
     }
   `;
 
@@ -73,10 +106,9 @@ function AboutMe() {
   return (
     <AboutMeWrapper>
       <BackgroundDeco></BackgroundDeco>
-      <TileBlockImage>
-        <img style={{ width: "460px" }} src={junProfile} alt="" />
-      </TileBlockImage>
+      <TileBlockImageBig src={junProfile} alt=""></TileBlockImageBig>
       <TileBlockText>
+        <TileBlockImageSmall src={junProfile} alt=""></TileBlockImageSmall>
         <div>
           <TileTitle>About Me</TileTitle>
           {data.map((item, index) => {
