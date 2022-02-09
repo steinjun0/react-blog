@@ -52,27 +52,27 @@ function PostCard({ categories, title, subTitle }) {
   );
 }
 
-function useShowPosts(posts) {
+function useShowPosts(postCarousels, categoryIndex) {
   const [showPosts, setShowPosts] = useState([]);
   function sliceShowPosts(windowWidth = 1281) {
-    if (posts.length > 4 && DESKTOP_WIDTH <= windowWidth) {
-      setShowPosts(posts.slice(0, 4));
+    if (postCarousels[categoryIndex].posts.length > 4 && DESKTOP_WIDTH <= windowWidth) {
+      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 4));
     } else if (
-      posts.length > 3 &&
+      postCarousels[categoryIndex].posts.length > 3 &&
       DESKTOP_SMALL_WIDTH < windowWidth &&
       windowWidth <= DESKTOP_WIDTH
     ) {
-      setShowPosts(posts.slice(0, 3));
+      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 3));
     } else if (
-      posts.length > 2 &&
+      postCarousels[categoryIndex].posts.length > 2 &&
       TABLET_WIDTH < windowWidth &&
       windowWidth <= DESKTOP_SMALL_WIDTH
     ) {
-      setShowPosts(posts.slice(0, 2));
-    } else if (posts.length > 1 && windowWidth <= TABLET_WIDTH) {
-      setShowPosts(posts.slice(0, 1));
+      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 2));
+    } else if (postCarousels[categoryIndex].posts.length > 1 && windowWidth <= TABLET_WIDTH) {
+      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 1));
     } else {
-      setShowPosts(posts);
+      setShowPosts(postCarousels[categoryIndex].posts);
     }
   }
 
@@ -90,8 +90,10 @@ function useShowPosts(posts) {
   });
 
   useEffect(() => {
-    sliceShowPosts(window.innerWidth);
-  }, [posts, isDesktop, isDesktopSmall, isTablet, isPhone]);
+    if (postCarousels[categoryIndex] !== undefined) {
+      sliceShowPosts(window.innerWidth);
+    }
+  }, [postCarousels, isDesktop, isDesktopSmall, isTablet, isPhone]);
 
   return showPosts;
 }
@@ -99,53 +101,76 @@ function useShowPosts(posts) {
 function PostCarousel() {
   const PostCarouselWrapper = styled("div")`
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  `;
+  const PostCarouselMain = styled("div")`
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
   `;
-  const [posts, setPosts] = useState([]);
-  const showPosts = useShowPosts(posts);
+  const PostCarouselCategory = styled('span')`
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 24px;
+  `
 
+  const [postCarousels, setPostCarousels] = useState([]);
+  const [categoryIndex, setCategoryIndex] = useState(0);
+  const showPosts = useShowPosts(postCarousels, categoryIndex);
   useEffect(() => {
     // To do... getMainPagePosts API
-    setPosts([
-      {
-        categories: ["Django", "Docker"],
-        title: "gunicorn에 vscode debugger 붙이기",
-        subTitle: "개발자여, 조금 더 편하게 살아보자",
-      },
-      {
-        categories: ["Vue2"],
-        title: "v-model과 v-bind.sync 그리고 Vue3",
-        subTitle: "다가오는 Vue3와 변화되는 문법",
-      },
-      {
-        categories: ["Docker"],
-        title: "docker compose와 Monolothic Server 구축",
-        subTitle: "환경 구축으로부터의 탈출",
-      },
-      {
-        categories: ["Vue2"],
-        title: "v-model과 v-bind.sync 그리고 Vue3",
-        subTitle: "다가오는 Vue3와 변화되는 문법",
-      },
-    ]);
+    setPostCarousels(
+      [{
+        cateogry: 'Programming',
+        posts: [
+          {
+            categories: ["Django", "Docker"],
+            title: "gunicorn에 vscode debugger 붙이기",
+            subTitle: "개발자여, 조금 더 편하게 살아보자",
+          },
+          {
+            categories: ["Vue2"],
+            title: "v-model과 v-bind.sync 그리고 Vue3",
+            subTitle: "다가오는 Vue3와 변화되는 문법",
+          },
+          {
+            categories: ["Docker"],
+            title: "docker compose와 Monolothic Server 구축",
+            subTitle: "환경 구축으로부터의 탈출",
+          },
+          {
+            categories: ["Vue2"],
+            title: "v-model과 v-bind.sync 그리고 Vue3",
+            subTitle: "다가오는 Vue3와 변화되는 문법",
+          },
+        ]
+      }]);
+
   }, []);
 
   return (
     <PostCarouselWrapper>
-      <ChevronLeftIcon fontSize="large" style={{ marginTop: "74px" }} />
-      {showPosts.map((post, index) => {
-        return (
-          <PostCard
-            key={index}
-            categories={post.categories}
-            title={post.title}
-            subTitle={post.subTitle}
-          />
-        );
-      })}
-      <ChevronRightIcon fontSize="large" style={{ marginTop: "74px" }} />
+      <PostCarouselMain>
+        <ChevronLeftIcon fontSize="large" style={{ marginTop: "74px" }} />
+        {showPosts.map((post, index) => {
+          return (
+            <PostCard
+              key={index}
+              categories={post.categories}
+              title={post.title}
+              subTitle={post.subTitle}
+            />
+          );
+        })}
+        <ChevronRightIcon fontSize="large" style={{ marginTop: "74px" }} />
+      </PostCarouselMain>
+      <PostCarouselCategory>
+        Programming
+      </PostCarouselCategory>
     </PostCarouselWrapper>
   );
 }
