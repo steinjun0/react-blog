@@ -15,9 +15,15 @@ const PostCarouselBlock = styled("div")`
   @media only screen and (max-width: ${TABLET_WIDTH}px) {
     justify-content: center;
   }
+  @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
+    justify-content: space-around;
+  }
 `;
 const Blocks = styled("div")`
-  display: flex;
+  display: ${(props) => {
+    if (props.post_carousels.length !== 0) return "flex";
+    else return "none";
+  }};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
