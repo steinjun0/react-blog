@@ -1,14 +1,10 @@
-import { Box, styled } from "@mui/material";
-import { useState, useEffect, memo } from "react";
+import { styled } from "@mui/material";
+import { useState, useEffect } from "react";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import PostCarouselShowBlocks from "./PostCarouselBlocks";
-
-// PostCarousel.propTypes = {
-//   posts: PropTypes.array.isRequired,
-// };
 
 // css-in-js
 const PostCarouselWrapper = styled("div")`
@@ -32,11 +28,25 @@ const PostCarouselShowWrapper = styled("div")`
   width: 100%;
   overflow-x: hidden;
 `;
+
+const PostCarouselCategoryWrapper = styled("div")`
+  margin-top: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  max-width: 150px;
+  overflow-x: hidden;
+`;
+
 const PostCarouselCategory = styled("span")`
   font-size: 20px;
   font-weight: 500;
-  margin-top: 12px;
-  margin-bottom: 24px;
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
+  transform: translateX(
+    ${({ category_index, post_carousels }) =>
+      post_carousels.length > 0 && -category_index * 100}%
+  );
 `;
 
 function PostCarousel() {
@@ -140,9 +150,18 @@ function PostCarousel() {
           style={{ marginTop: "74px", cursor: "pointer" }}
         />
       </PostCarouselMain>
-      <PostCarouselCategory>
-        {postCarousels[categoryIndex] && postCarousels[categoryIndex].category}
-      </PostCarouselCategory>
+      <PostCarouselCategoryWrapper>
+        {postCarousels.map(({ category }, index) => {
+          return (
+            <PostCarouselCategory
+              post_carousels={postCarousels}
+              category_index={categoryIndex}
+            >
+              {category}
+            </PostCarouselCategory>
+          );
+        })}
+      </PostCarouselCategoryWrapper>
     </PostCarouselWrapper>
   );
 }
