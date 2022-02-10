@@ -9,6 +9,7 @@ function AboutMe() {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    height: 532px;
   `;
   const BackgroundDeco = styled(Box)`
     width: calc(50% + 360px);
@@ -22,46 +23,33 @@ function AboutMe() {
     width: 460px;
     height: 460px;
     margin-top: 72px;
-    // margin-left: 160px;
     box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.25);
   `;
   const TileBlockImage = styled("img")`
-    margin-top: 72px;
-    margin-right: 80px;
+    margin-top: -12px;
     width: 460px;
     height: 460px;
+    left: calc(-460px - 80px);
     box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.25);
+    position: absolute;
     @media only screen and (max-width: ${DESKTOP_WIDTH}px) {
-      margin-right: 40px;
-      margin-top: 218px;
+      left: calc(-230px - 160px);
+      margin-top: 182px;
       width: 330px;
       height: 330px;
     }
     @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
       position: absolute;
-      margin-left: 215px;
+      left: calc(215px + 24px);
       margin-top: 230px;
       width: 174px;
       height: 174px;
     }
   `;
-  const TileBlockImageSmall = styled(TileBlockImage)`
-    @media only screen and (min-width: ${DESKTOP_SMALL_WIDTH}px) {
-      display: none;
-    }
-    @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
-      display: block;
-    }
-  `;
-  const TileBlockImageBig = styled(TileBlockImage)`
-    @media only screen and (min-width: ${DESKTOP_SMALL_WIDTH}px) {
-      display: block;
-    }
-    @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
-      display: none;
-    }
-  `;
+
   const TileBlockText = styled(TileBlock)`
+    position: absolute;
+    left: calc(50% + 80px);
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -70,10 +58,12 @@ function AboutMe() {
     color: white;
     padding-left: 32px;
     box-sizing: border-box;
-    margin-left: 80px;
     @media only screen and (max-width: ${DESKTOP_WIDTH}px) {
-      margin-left: 40px;
+      left: calc(50%);
       margin-top: 36px;
+    }
+    @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
+      left: calc(50% - 230px);
     }
   `;
 
@@ -106,9 +96,9 @@ function AboutMe() {
   return (
     <AboutMeWrapper>
       <BackgroundDeco></BackgroundDeco>
-      <TileBlockImageBig src={junProfile} alt=""></TileBlockImageBig>
+      {/* <TileBlockImageBig src={junProfile} alt=""></TileBlockImageBig> */}
       <TileBlockText>
-        <TileBlockImageSmall src={junProfile} alt=""></TileBlockImageSmall>
+        <TileBlockImage src={junProfile} alt=""></TileBlockImage>
         <div>
           <TileTitle>About Me</TileTitle>
           {data.map((item, index) => {
