@@ -154,6 +154,7 @@ function PostCarousel() {
         {postCarousels.map(({ category }, index) => {
           return (
             <PostCarouselCategory
+              key={index}
               post_carousels={postCarousels}
               category_index={categoryIndex}
             >
