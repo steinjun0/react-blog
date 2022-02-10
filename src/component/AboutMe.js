@@ -1,6 +1,6 @@
 import { Box, styled } from "@mui/material";
 import junProfile from "../junProfile.jpg";
-import { DESKTOP_WIDTH, DESKTOP_SMALL_WIDTH, TABLET_WIDTH } from "../App";
+import { DESKTOP_WIDTH, DESKTOP_SMALL_WIDTH, TABLET_WIDTH } from "../style";
 
 const berryPeri = "#6868ac";
 

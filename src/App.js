@@ -2,7 +2,7 @@
 import "./App.css";
 import Gnb from "./component/Gnb";
 import AboutMe from "./component/AboutMe";
-import PostCarousel from "./component/PostCarousel";
+import PostCarousel from "./component/PostCarousel/PostCarousel";
 
 function App() {
   return (
@@ -29,9 +29,5 @@ function App() {
     </div>
   );
 }
-
-export const DESKTOP_WIDTH = 1280;
-export const DESKTOP_SMALL_WIDTH = 960;
-export const TABLET_WIDTH = 768;
 
 export default App;
