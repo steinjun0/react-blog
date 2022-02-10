@@ -1,80 +1,46 @@
 import { Box, styled } from "@mui/material";
-import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+import PostCard from './PostCard'
+
 import { DESKTOP_WIDTH, DESKTOP_SMALL_WIDTH, TABLET_WIDTH } from "../App";
 
-PostCard.propTypes = {
-  categories: PropTypes.array,
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
-};
 
 // PostCarousel.propTypes = {
 //   posts: PropTypes.array.isRequired,
 // };
 
-function PostCard({ categories, title, subTitle }) {
-  const PostCardWrapper = styled("div")`
-    width: 282px;
-    height: 155px;
-    margin-top: 74px;
-    margin-bottom: 24px;
-    display: flex;
-    flex-direction: column;
-    border-bottom: 2px solid #c4c4c4;
-    // box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    // padding: 12px;
-    // border: 1px solid #ddd;
-  `;
-  const PostCardCategory = styled("div")`
-    font-size: 14px;
-    color: #373737;
-  `;
-  const PostCardTitle = styled("div")`
-    font-size: 24px;
-    font-weight: 500;
-  `;
-  const PostCardSubTitle = styled("div")`
-    margin-top: 14px;
-    font-size: 14px;
-  `;
-  return (
-    <PostCardWrapper>
-      <PostCardCategory>[{categories.join(", ")}]</PostCardCategory>
-      <PostCardTitle>{title}</PostCardTitle>
-      <PostCardSubTitle>{subTitle}</PostCardSubTitle>
-    </PostCardWrapper>
-  );
+
+
+const getSlicedPostsResponsive = (windowWidth = 1281, posts) => {
+  if (posts.length > 4 && DESKTOP_WIDTH <= windowWidth) {
+    return posts.slice(0, 4);
+  } else if (
+    posts.length > 3 &&
+    DESKTOP_SMALL_WIDTH < windowWidth &&
+    windowWidth <= DESKTOP_WIDTH
+  ) {
+    return posts.slice(0, 3);
+  } else if (
+    posts.length > 2 &&
+    TABLET_WIDTH < windowWidth &&
+    windowWidth <= DESKTOP_SMALL_WIDTH
+  ) {
+    return posts.slice(0, 2);
+  } else if (posts.length > 1 && windowWidth <= TABLET_WIDTH) {
+    return posts.slice(0, 1);
+  } else {
+    return posts;
+  }
 }
 
 function useShowPosts(postCarousels, categoryIndex) {
   const [showPosts, setShowPosts] = useState([]);
-  function sliceShowPosts(windowWidth = 1281) {
-    if (postCarousels[categoryIndex].posts.length > 4 && DESKTOP_WIDTH <= windowWidth) {
-      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 4));
-    } else if (
-      postCarousels[categoryIndex].posts.length > 3 &&
-      DESKTOP_SMALL_WIDTH < windowWidth &&
-      windowWidth <= DESKTOP_WIDTH
-    ) {
-      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 3));
-    } else if (
-      postCarousels[categoryIndex].posts.length > 2 &&
-      TABLET_WIDTH < windowWidth &&
-      windowWidth <= DESKTOP_SMALL_WIDTH
-    ) {
-      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 2));
-    } else if (postCarousels[categoryIndex].posts.length > 1 && windowWidth <= TABLET_WIDTH) {
-      setShowPosts(postCarousels[categoryIndex].posts.slice(0, 1));
-    } else {
-      setShowPosts(postCarousels[categoryIndex].posts);
-    }
-  }
+
 
   const isDesktop = useMediaQuery({
     query: "(min-width:1280px)",
@@ -90,15 +56,78 @@ function useShowPosts(postCarousels, categoryIndex) {
   });
 
   useEffect(() => {
-    if (postCarousels[categoryIndex] !== undefined) {
-      sliceShowPosts(window.innerWidth);
-    }
+    postCarousels.map((postBlock) => {
+      setShowPosts(showPosts + getSlicedPostsResponsive(window.innerWidth, postBlock.posts));
+    })
+    console.log('postCarousels', postCarousels)
   }, [postCarousels, isDesktop, isDesktopSmall, isTablet, isPhone]);
 
   return showPosts;
 }
 
+function PostCarouselShowBlocks({ postCarousels, categoryIndex }) {
+  const PostCarouselShowBlock = styled("div")`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  `;
+  const Blocks = styled("div")`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: ${postCarousels.length * 100}%;
+    transform: translateX(${-(categoryIndex / postCarousels.length) * 100}%);
+  `;
+
+  return (
+    <Blocks>
+      {
+        postCarousels.map((postBlock, blockIndex) => {
+          return (
+            <PostCarouselShowBlock key={blockIndex} >
+              {
+                postBlock.posts.map((post, index) => {
+                  return (
+                    <PostCard
+                      key={index}
+                      categories={post.categories}
+                      title={post.title}
+                      subTitle={post.subTitle}
+                    />
+                  );
+                })
+              }
+            </PostCarouselShowBlock>
+          );
+        })
+      }
+
+    </Blocks>);
+}
+
 function PostCarousel() {
+  //utils
+  const getPrevCategoryIndex = () => {
+    if (categoryIndex === 0) return postCarousels.length - 1
+    else return categoryIndex - 1
+  }
+  const getNextCategoryIndex = () => {
+    if (categoryIndex >= postCarousels.length - 1) return 0
+    else return categoryIndex + 1
+  }
+
+  const movePrevCategory = () => {
+    const index = getPrevCategoryIndex();
+    setCategoryIndex(index)
+  }
+  const moveNextCategory = () => {
+    const index = getNextCategoryIndex();
+    setCategoryIndex(index)
+  }
+  // css-in-js
   const PostCarouselWrapper = styled("div")`
     display: flex;
     flex-direction: column;
@@ -112,20 +141,40 @@ function PostCarousel() {
     align-items: center;
     width: 100%;
   `;
+  const PostCarouselShowWrapper = styled("div")`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow-x:hidden;
+  `;
+
+
   const PostCarouselCategory = styled('span')`
     font-size: 20px;
     font-weight: 500;
+    margin-top: 12px;
     margin-bottom: 24px;
   `
 
+
+  // state
   const [postCarousels, setPostCarousels] = useState([]);
   const [categoryIndex, setCategoryIndex] = useState(0);
-  const showPosts = useShowPosts(postCarousels, categoryIndex);
+
+
+
+  // hooks
+  // const showPostsMain = useShowPosts(postCarousels, categoryIndex);
+  // const showPostsPrev = useShowPosts(postCarousels, getPrevCategoryIndex(categoryIndex));
+  // const showPostsNext = useShowPosts(postCarousels, getNextCategoryIndex(categoryIndex));
+
   useEffect(() => {
     // To do... getMainPagePosts API
     setPostCarousels(
       [{
-        cateogry: 'Programming',
+        category: 'Programming',
         posts: [
           {
             categories: ["Django", "Docker"],
@@ -148,30 +197,55 @@ function PostCarousel() {
             subTitle: "다가오는 Vue3와 변화되는 문법",
           },
         ]
-      }]);
+      },
+      {
+        category: 'Camera',
+        posts: [
+          {
+            categories: ["Music", "Camera"],
+            title: "[자작곡] 프로필 스틸컷(2020)",
+            subTitle: "2020년 여름",
+          },
+          {
+            categories: ["Camera"],
+            title: "Trip for Europe: London",
+            subTitle: "2020/01/26 ~ 2020/01/30",
+          },
+          {
+            categories: ["Camera"],
+            title: "시험 전 휴식-농장",
+            subTitle: "2020/05/04",
+          },
+          {
+            categories: ["Music, Compose"],
+            title: "[Remake, Sample] 잘 있어요(아따맘마 오프닝)",
+            subTitle: "안녕하세요, 감사해요",
+          },
+        ]
+      }
+      ]);
 
   }, []);
+
+  const carouselAnimationStyle = {
+    minWidth: `${postCarousels.length * 100}%`,
+    transform: `translateX(${-(categoryIndex / postCarousels.length) * 100}%)`
+  }
 
   return (
     <PostCarouselWrapper>
       <PostCarouselMain>
-        <ChevronLeftIcon fontSize="large" style={{ marginTop: "74px" }} />
-        {showPosts.map((post, index) => {
-          return (
-            <PostCard
-              key={index}
-              categories={post.categories}
-              title={post.title}
-              subTitle={post.subTitle}
-            />
-          );
-        })}
-        <ChevronRightIcon fontSize="large" style={{ marginTop: "74px" }} />
+        <ChevronLeftIcon onClick={movePrevCategory} fontSize="large" style={{ marginTop: "74px", cursor: 'pointer' }} />
+        <PostCarouselShowWrapper >
+          {/* <PostCarouselShowBlocks postCarousels={postCarousels} categoryIndex={categoryIndex}></PostCarouselShowBlocks> */}
+        </PostCarouselShowWrapper >
+
+        <ChevronRightIcon onClick={moveNextCategory} fontSize="large" style={{ marginTop: "74px", cursor: 'pointer' }} />
       </PostCarouselMain>
-      <PostCarouselCategory>
-        Programming
-      </PostCarouselCategory>
-    </PostCarouselWrapper>
+      {/* <PostCarouselCategory>
+        {postCarousels[categoryIndex] && postCarousels[categoryIndex].category}
+      </PostCarouselCategory> */}
+    </PostCarouselWrapper >
   );
 }
 
