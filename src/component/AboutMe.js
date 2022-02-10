@@ -10,6 +10,9 @@ function AboutMe() {
     flex-direction: row;
     justify-content: center;
     height: 532px;
+    @media only screen and (max-width: ${TABLET_WIDTH}px) {
+      height: 432px;
+    }
   `;
   const BackgroundDeco = styled(Box)`
     width: calc(50% + 360px);
@@ -18,6 +21,9 @@ function AboutMe() {
     position: absolute;
     left: 0;
     z-index: -1;
+    @media only screen and (max-width: ${TABLET_WIDTH}px) {
+      height: 354px;
+    }
   `;
   const TileBlock = styled(Box)`
     width: 460px;
@@ -45,6 +51,10 @@ function AboutMe() {
       width: 174px;
       height: 174px;
     }
+    @media only screen and (max-width: ${TABLET_WIDTH}px) {
+      width: 0;
+      height: 0;
+    }
   `;
 
   const TileBlockText = styled(TileBlock)`
@@ -65,11 +75,20 @@ function AboutMe() {
     @media only screen and (max-width: ${DESKTOP_SMALL_WIDTH}px) {
       left: calc(50% - 230px);
     }
+    @media only screen and (max-width: ${TABLET_WIDTH}px) {
+      padding-left: 16px;
+      left: calc(50% - 180px);
+      width: 360px;
+      height: 360px;
+    }
   `;
 
   const TileTitle = styled("h1")`
     font-size: 52px;
     font-weight: 500;
+    @media only screen and (max-width: ${TABLET_WIDTH}px) {
+      font-size: 40px;
+    }
   `;
   const TileSubTitle = styled("ul")`
     display: flex;
@@ -79,6 +98,9 @@ function AboutMe() {
     font-weight: 700;
     list-style-type: none;
     padding: 0;
+    @media only screen and (max-width: ${TABLET_WIDTH}px) {
+      font-size: 20px;
+    }
   `;
   const TileContent = styled("li")`
     font-size: 16px;
