@@ -114,33 +114,78 @@ const TileContent = styled("li")`
 
 const getRandomSpell = (length = 1) => {
   let result = "";
-  for (let i = 0; i < length; i++) {
-    result += String.fromCharCode(Math.floor(Math.random() * 57 + 65)); // 65 ~ 122
+  // result = String.fromCharCode(Math.floor(Math.random() * 25 + 65)); // 65 ~ 90 (ASCII Capital letter range)
+  for (let i = 0; i < length - 1; i++) {
+    result += String.fromCharCode(Math.floor(Math.random() * 25 + 97)); // 97 ~ 122 (ASCII small letter range)
   }
   return result;
 };
 
+const findSpaceOfString = (referenceString) => {
+  let spacePositions = [];
+  referenceString.split(" ").forEach((word, index) => {
+    const prevWordLength = spacePositions[index - 1]
+      ? spacePositions[index - 1]
+      : 0;
+    spacePositions.push(word.length + prevWordLength);
+  });
+
+  return spacePositions;
+};
+
+const addSpaceToString = (inputString, spacePositions) => {
+  let outputString = (" " + inputString).slice(1);
+  spacePositions.forEach((spacePosition, index) => {
+    outputString =
+      outputString.slice(0, spacePosition) +
+      " " +
+      outputString.slice(spacePosition + 1);
+  });
+  return outputString;
+};
+
 function ConvertTextEffect({ init, dest }) {
   function* getGeneratorConvertText(init, dest) {
-    console.log("getGeneratorConvertText");
     yield init;
-    yield getRandomSpell(1 / ((dest.length - init.length) / 7) + init.length);
-    yield getRandomSpell(2 / ((dest.length - init.length) / 7) + init.length);
-    yield getRandomSpell(3 / ((dest.length - init.length) / 7) + init.length);
-    yield getRandomSpell(4 / ((dest.length - init.length) / 7) + init.length);
-    yield getRandomSpell(5 / ((dest.length - init.length) / 7) + init.length);
-    yield getRandomSpell(6 / ((dest.length - init.length) / 7) + init.length);
-    yield getRandomSpell(7 / ((dest.length - init.length) / 7) + init.length);
+    yield init[0] +
+      addSpaceToString(
+        getRandomSpell(1 * ((dest.length - init.length) / 7) + init.length - 1),
+        findSpaceOfString(init)
+      );
+    yield init[0] +
+      addSpaceToString(
+        getRandomSpell(2 * ((dest.length - init.length) / 7) + init.length - 1),
+        findSpaceOfString(init)
+      );
+    yield addSpaceToString(
+      getRandomSpell(3 * ((dest.length - init.length) / 7) + init.length),
+      findSpaceOfString(init)
+    );
+    yield addSpaceToString(
+      getRandomSpell(4 * ((dest.length - init.length) / 7) + init.length),
+      findSpaceOfString(dest)
+    );
+    yield addSpaceToString(
+      getRandomSpell(5 * ((dest.length - init.length) / 7) + init.length),
+      findSpaceOfString(dest)
+    );
+    yield addSpaceToString(
+      getRandomSpell(6 * ((dest.length - init.length) / 7) + init.length),
+      findSpaceOfString(dest)
+    );
+    yield dest[0] +
+      addSpaceToString(
+        getRandomSpell(7 * ((dest.length - init.length) / 7) + init.length - 1),
+        findSpaceOfString(dest)
+      );
     yield dest;
   }
 
   const [text, setText] = useState(init);
 
   const setConvertTextCycle = () => {
-    console.log("setConvertTextCycle");
     setTimeout(() => {
       const genObject = generatorConvertText.next();
-      console.log("genObject", genObject);
       if (!genObject.done) {
         setText(genObject.value);
         setConvertTextCycle();
