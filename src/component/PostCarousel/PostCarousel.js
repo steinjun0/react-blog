@@ -1,5 +1,6 @@
 import { styled } from "@mui/material";
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -49,7 +50,12 @@ const PostCarouselCategory = styled("span")`
   );
 `;
 
-function PostCarousel() {
+PostCarousel.propTypes = {
+  categoryIndex: PropTypes.number.isRequired,
+  setCategoryIndex: PropTypes.func.isRequired,
+};
+
+function PostCarousel({ categoryIndex, setCategoryIndex }) {
   //utils
   const getPrevCategoryIndex = () => {
     if (categoryIndex === 0) return postCarousels.length - 1;
@@ -71,7 +77,7 @@ function PostCarousel() {
 
   // state
   const [postCarousels, setPostCarousels] = useState([]);
-  const [categoryIndex, setCategoryIndex] = useState(0);
+  // const [categoryIndex, setCategoryIndex] = useState(0);
 
   useEffect(() => {
     // To do... getMainPagePosts API
