@@ -26,12 +26,24 @@ function Gnb() {
     width: 100px;
     // margin-right: 16px;
   `;
+
+  const NoStyleA = styled('a')`
+    text-decoration: none;
+    color: inherit;
+  `;
   return (
     <GnbCommon>
       <GnbTitle>Stein.log</GnbTitle>
       <GnbIconGroup>
-        <GitHubIcon></GitHubIcon>
-        <InstagramIcon></InstagramIcon>
+
+        <NoStyleA href="https://github.com/steinjun0" target="_blank" rel="noreferrer">
+          <GitHubIcon></GitHubIcon>
+        </NoStyleA>
+
+        <NoStyleA href="https://www.instagram.com/junyoungseok/" target="_blank" rel="noreferrer">
+          <InstagramIcon></InstagramIcon>
+        </NoStyleA>
+
       </GnbIconGroup>
     </GnbCommon>
   );
