@@ -215,7 +215,7 @@ function AboutMe({ categoryIndex }) {
       ],
     },
     {
-      title: "About My Music",
+      title: "Music",
       contentList: [
         {
           subTitle: "Compose Style",
@@ -256,8 +256,8 @@ function AboutMe({ categoryIndex }) {
                   key={`subtitle-cte-${index}`}
                   init={
                     presentData.contentList &&
-                    presentData.contentList[index] &&
-                    presentData.contentList[index].subTitle
+                      presentData.contentList[index] &&
+                      presentData.contentList[index].subTitle
                       ? presentData.contentList[index].subTitle
                       : "."
                   }
@@ -269,8 +269,8 @@ function AboutMe({ categoryIndex }) {
                     key={`content-cte-${index}`}
                     init={
                       presentData.contentList &&
-                      presentData.contentList[index] &&
-                      presentData.contentList[index].content
+                        presentData.contentList[index] &&
+                        presentData.contentList[index].content
                         ? presentData.contentList[index].content
                         : "."
                     }
