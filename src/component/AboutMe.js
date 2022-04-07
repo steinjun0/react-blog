@@ -215,6 +215,21 @@ function AboutMe({ categoryIndex }) {
       ],
     },
     {
+      title: "Camera",
+      contentList: [
+        {
+          subTitle: "Camera Model",
+          content: "Sony A6400",
+        },
+        {
+          subTitle: "Using lens",
+          content: "Sel35f18, Selp1650f3.5",
+        },
+        { subTitle: "Editing Program", content: "DaVinci Resolve" },
+        // { subTitle: "Equipment", content: "MXL-2006\nUMC-204HD" },
+      ],
+    },
+    {
       title: "Music",
       contentList: [
         {
