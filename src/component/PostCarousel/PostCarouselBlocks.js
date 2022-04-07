@@ -30,8 +30,8 @@ const Blocks = styled("div")`
   min-width: ${(props) => `${props.post_carousels.length * 100}%`};
   transform: translateX(
     ${({ category_index, post_carousels }) =>
-      post_carousels.length > 0 &&
-      -(category_index / post_carousels.length) * 100}%
+    post_carousels.length > 0 &&
+    -(category_index / post_carousels.length) * 100}%
   );
 `;
 
@@ -91,7 +91,7 @@ function PostCarouselBlocks({ postCarousels, categoryIndex }) {
                   key={index}
                   categories={post.categories}
                   title={post.title}
-                  subTitle={post.subTitle}
+                  subTitle={post.sub_title}
                 />
               );
             })}
