@@ -1,5 +1,6 @@
 import { styled } from "@mui/material";
 import PropTypes from "prop-types";
+import { UnderlineLink } from 'util/styledComponent';
 PostCard.propTypes = {
   categories: PropTypes.array,
   title: PropTypes.string.isRequired,
@@ -35,7 +36,9 @@ function PostCard({ categories, title, subTitle }) {
   return (
     <PostCardWrapper>
       <PostCardCategory>[{categories.join(", ")}]</PostCardCategory>
-      <PostCardTitle>{title}</PostCardTitle>
+      <UnderlineLink to={`/post/${1}`}>
+        <PostCardTitle>{title}</PostCardTitle>
+      </UnderlineLink>
       <PostCardSubTitle>{subTitle}</PostCardSubTitle>
     </PostCardWrapper>
   );
