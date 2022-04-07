@@ -15,7 +15,7 @@ const getValidError = exception => {
     }
     return exception
 }
-export default {
+const API = {
     refreshUserData() {
         // user = JSON.parse(localStorage.getItem('userData'))
         // if (user !== null) {
@@ -142,3 +142,4 @@ export default {
     },
 
 }
+export default API
