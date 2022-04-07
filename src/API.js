@@ -1,5 +1,5 @@
 import axios from 'axios'
-const CAREER_DIVE_API_URL = 'https://api.careerdive.deagwon.com'
+const API_URL = 'https://api.blog.steinjun.net/api'
 
 let user = JSON.parse(localStorage.getItem('userData'))
 let tokenHeader = false
@@ -120,24 +120,56 @@ const API = {
         }
     },
 
-    async getAdminList() {
-        const loginRes = await this.getAxios(`${CAREER_DIVE_API_URL}hrd/admins/`)
+    // api start
+    async getCategories() {
+        const categoriesRes = await this.getAxios(
+            `${API_URL}/blog/categories`
+        )
+        return categoriesRes
+    },
+    async getPostList() {
+        const postListRes = await this.getAxios(
+            `${API_URL}/blog/post`
+        )
+        return postListRes
+    },
+    async getHomePostList() {
+        const postListRes = await this.getAxios(
+            `${API_URL}/blog/post/get_main_page_list`
+        )
+        return postListRes
+    },
+    async getPost(id) {
+        const postRes = await this.getAxios(
+            `${API_URL}/blog/post/${id}`
+        )
+        return postRes
+    },
+    async postCategory(category) {
+        const loginRes = await this.postAxios(
+            `${API_URL}/blog/categories/`,
+            category
+        )
         return loginRes
     },
-
-    async postLogin(email, password) {
-        const loginRes = await this.postAxios(`${CAREER_DIVE_API_URL}/account/login`, { email, password })
-        return loginRes
+    async postProfile(img) {
+        const postProfileRes = await this.postAxiosFormData(
+            `${API_URL}auth/profile/`,
+            img
+        )
+        return postProfileRes
     },
-
-
     async patchUser(userData) {
-        const userRes = await this.patchAxios(`${CAREER_DIVE_API_URL}auth/user/`, userData)
+        const userRes = await this.patchAxios(
+            `${API_URL}auth/user/`,
+            userData
+        )
         return userRes
     },
-
     async deleteTask(taskId) {
-        const deleteRes = await this.deleteAxios(`${CAREER_DIVE_API_URL}task/task/${taskId}/`)
+        const deleteRes = await this.deleteAxios(
+            `${API_URL}task/task/${taskId}/`
+        )
         return deleteRes
     },
 
