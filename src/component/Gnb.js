@@ -1,6 +1,7 @@
 // import styled from "styled-components";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import { NoStyleA } from "util/styledComponent";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 function Gnb() {
@@ -27,10 +28,7 @@ function Gnb() {
     // margin-right: 16px;
   `;
 
-  const NoStyleA = styled('a')`
-    text-decoration: none;
-    color: inherit;
-  `;
+
   return (
     <GnbCommon>
       <GnbTitle>Stein.log</GnbTitle>
