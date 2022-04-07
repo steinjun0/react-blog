@@ -26,7 +26,7 @@ const PostCardCategory = styled("div")`
 const PostCardTitle = styled("div")`
   font-size: 24px;
   font-weight: 500;
-  white-space: pre;
+  white-space: pre-wrap;
 `;
 const PostCardSubTitle = styled("div")`
   margin-top: 14px;
