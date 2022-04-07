@@ -88,6 +88,7 @@ function PostCarouselBlocks({ postCarousels, categoryIndex }) {
               }
               return (
                 <PostCard
+                  id={post.id}
                   key={index}
                   categories={post.categories}
                   title={post.title}
