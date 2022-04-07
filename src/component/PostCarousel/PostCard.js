@@ -26,6 +26,7 @@ const PostCardCategory = styled("div")`
 const PostCardTitle = styled("div")`
   font-size: 24px;
   font-weight: 500;
+  white-space: pre;
 `;
 const PostCardSubTitle = styled("div")`
   margin-top: 14px;
@@ -37,7 +38,7 @@ function PostCard({ categories, title, subTitle }) {
     <PostCardWrapper>
       <PostCardCategory>[{categories.join(", ")}]</PostCardCategory>
       <UnderlineLink to={`/post/${1}`}>
-        <PostCardTitle>{title}</PostCardTitle>
+        <PostCardTitle>{title.replace('\\', '\n')}</PostCardTitle>
       </UnderlineLink>
       <PostCardSubTitle>{subTitle}</PostCardSubTitle>
     </PostCardWrapper>
