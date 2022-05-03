@@ -10,7 +10,7 @@ function Gnb() {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: black;
+    background-color: white;
     color: white;
     height: 86px;
     width: 100%;
