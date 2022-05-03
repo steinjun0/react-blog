@@ -1,13 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
 * {
   font-family: "Noto Sans KR", sans-serif;
   transition: 0.8s ease;
 }
+
 .AppWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 50px;
 }
 
 .App {
@@ -15,6 +18,7 @@
   max-width: 1440px;
   min-width: 414px;
   width: 100%;
+
 }
 
 .App-logo {
@@ -47,6 +51,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
