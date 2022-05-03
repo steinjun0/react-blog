@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/material";
-import junProfile from "../junProfile.jpg";
+import junProfile from "assets/img/junProfile.jpg";
 import { DESKTOP_WIDTH, DESKTOP_SMALL_WIDTH, TABLET_WIDTH } from "../style";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
