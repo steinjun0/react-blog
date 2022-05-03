@@ -67,8 +67,9 @@ const TileBlockText = styled(TileBlock)`
   display: flex;
   flex-direction: column;
   align-items: start;
-  border: 12px solid rgba(240, 240, 240, 1);
-  background-color: ${berryPeri};
+  // border: 12px solid rgba(240, 240, 240, 1);
+  // background-color: ${berryPeri};
+  box-shadow: none;
   color: white;
   padding-left: 32px;
   box-sizing: border-box;
@@ -256,7 +257,7 @@ function AboutMe({ categoryIndex }) {
       {/* <TileBlockImageBig src={junProfile} alt=""></TileBlockImageBig> */}
       <TileBlockText>
         <TileBlockImage src={junProfile} alt=""></TileBlockImage>
-        <div>
+        {/* <div>
           <TileTitle>
             <ConvertTextEffect
               key={`title-cte`}
@@ -295,7 +296,7 @@ function AboutMe({ categoryIndex }) {
               </TileSubTitle>
             );
           })}
-        </div>
+        </div> */}
       </TileBlockText>
     </AboutMeWrapper>
   );
