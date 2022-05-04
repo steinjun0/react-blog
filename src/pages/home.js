@@ -22,6 +22,9 @@ const CategoryTitle = styled(NoStyleLink)`
   }
 `;
 
+// transform은 2개를 동시에 적용할 수 없다.
+// 따라서 다른 엘레먼트를 추가하여서(감싸서) 적용해줘야한다.
+// 그래서 imageWrapperCropper 추가함
 const ImageWrapperCropper = styled(Flex)`
   max-width: 800px;
   margin-left: auto;
