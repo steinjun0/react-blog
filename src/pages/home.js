@@ -7,6 +7,7 @@ import { Flex, NoStyleLink, VerticalFlex } from "util/styledComponent";
 import junProfile from "assets/img/junProfile.jpg";
 import test1 from "assets/img/blog-test1.png";
 import test2 from "assets/img/blog-test2.png";
+import API from "API";
 
 
 const CategoryTitle = styled(NoStyleLink)`
@@ -79,10 +80,27 @@ function Home() {
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [changeMainImageIntervalIndex, setChangeMainImageIntervalIndex] = useState(-1);
+  const [postList, setPostList] = useState([]);
   useEffect(() => {
     let intervalIndex = setInterval(() => {
       setMainImageIndex(mainImageIndex => mainImageIndex + 1)
     }, 2000);
+    API.getPostList().then((res) => {
+      if (res.status === 200) {
+        let data = res.data
+        let thumbnails = []
+        res.data.map(async (e) => {
+          if (e.thumbnail !== '/media/-') {
+            const thumbnail = await API.getMedia(e.thumbnail);
+            thumbnails.push(thumbnail.data)
+          } else {
+            thumbnails.push('no_thumbnail')
+          }
+        })
+
+        setPostList(data)
+      }
+    })
     setChangeMainImageIntervalIndex(intervalIndex)
     return () => clearInterval(intervalIndex)
   }, [])
@@ -118,6 +136,13 @@ function Home() {
           setChangeMainImageIntervalIndex(intervalIndex)
         }}
       >
+        {/* {
+          postList.map((e) => {
+            console.log('e.thumbnail', e.thumbnail)
+            console.log(API)
+            return e.thumbnail !== '/media/-' && <img src={API.MEDIA_URL + e.thumbnail} alt='tes' />
+          })
+        } */}
         <VerticalFlex>
           <CategoryTitle
             onMouseEnter={() => {

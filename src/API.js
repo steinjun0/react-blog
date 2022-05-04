@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_URL = 'https://api.blog.steinjun.net/api'
+export const API_URL = 'https://api.blog.steinjun.net/api'
 
 let user = JSON.parse(localStorage.getItem('userData'))
 let tokenHeader = false
@@ -16,6 +16,7 @@ const getValidError = exception => {
     return exception
 }
 const API = {
+    MEDIA_URL: 'https://api.blog.steinjun.net',
     refreshUserData() {
         // user = JSON.parse(localStorage.getItem('userData'))
         // if (user !== null) {
@@ -24,6 +25,15 @@ const API = {
         //   tokenHeader = false
         // }
     },
+    async getMedia(mediaUrl) {
+        try {
+            const res = await axios.get('https://api.blog.steinjun.net' + mediaUrl)
+            return res
+        } catch (e) {
+            return { error: getValidError(e) }
+        }
+    },
+
     async getAxios(url) {
         this.refreshUserData()
         try {
