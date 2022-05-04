@@ -52,7 +52,6 @@ const ImageWrapper = styled(Flex)`
   max-width: 400px;
   max-height: 400px;
   min-width: ${(props) => {
-    console.log(props.selected === 'true')
     return props.selected === 'true' ? '400px' : '200px' // undefined라도 무조건 값을 넣어놔야지 re-render가 안일어난다.
     // 200px 말고 공백으로 넣었어서 트랜지션이 안됐었음
   }};
@@ -98,16 +97,19 @@ function Home() {
   //   setTimeout(() => {
   //     setMainImageIndex(1)
   //   }, 1000);
-
   // })
+  const selectedCategoryStyled = {
+    color: 'black',
+    transform: 'scale(0.95)',
+  };
 
   return (
     <div>
       {/* <AboutMe categoryIndex={categoryIndex} /> */}
       <Flex>
         <VerticalFlex>
-          <CategoryTitle to='/'>Posts</CategoryTitle>
-          <CategoryTitle to='/'>Proj.</CategoryTitle>
+          <CategoryTitle style={mainImageIndex < 3 ? selectedCategoryStyled : {}} to='/'>Posts</CategoryTitle>
+          <CategoryTitle style={mainImageIndex >= 3 ? selectedCategoryStyled : {}} to='/'>Proj.</CategoryTitle>
         </VerticalFlex>
         <ImageWrapperCropper>
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
@@ -141,7 +143,7 @@ function Home() {
         categoryIndex={categoryIndex}
         setCategoryIndex={setCategoryIndex}
       />
-    </div>
+    </div >
   );
 }
 
