@@ -105,24 +105,33 @@ function Home() {
   return (
     <div>
       {/* <AboutMe categoryIndex={categoryIndex} /> */}
-      <Flex>
+      <Flex
+        onMouseEnter={() => {
+          clearInterval(changeMainImageIntervalIndex)
+        }}
+        onMouseLeave={() => {
+          let intervalIndex = setInterval(
+            () => {
+              setMainImageIndex(mainImageIndex => mainImageIndex + 1)
+            }
+            , 2000)
+          setChangeMainImageIntervalIndex(intervalIndex)
+        }}
+      >
         <VerticalFlex>
-          <CategoryTitle style={mainImageIndex < 3 ? selectedCategoryStyled : {}} to='/'>Posts</CategoryTitle>
-          <CategoryTitle style={mainImageIndex >= 3 ? selectedCategoryStyled : {}} to='/'>Proj.</CategoryTitle>
+          <CategoryTitle
+            onMouseEnter={() => {
+              setMainImageIndex(1)
+            }}
+            style={mainImageIndex < 3 ? selectedCategoryStyled : {}} to='/'>Posts</CategoryTitle>
+          <CategoryTitle
+            onMouseEnter={() => {
+              setMainImageIndex(4)
+            }}
+            style={mainImageIndex >= 3 ? selectedCategoryStyled : {}} to='/'>Proj.</CategoryTitle>
         </VerticalFlex>
         <ImageWrapperCropper
-          onMouseEnter={() => {
-            clearInterval(changeMainImageIntervalIndex)
 
-          }}
-          onMouseLeave={() => {
-            let intervalIndex = setInterval(
-              () => {
-                setMainImageIndex(mainImageIndex => mainImageIndex + 1)
-              }
-              , 2000)
-            setChangeMainImageIntervalIndex(intervalIndex)
-          }}
         >
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
             <ImageWrapper onMouseEnter={() => { setMainImageIndex(0) }} selected={mainImageIndex % 6 === 0} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
