@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { styled } from "@mui/material";
 import { VerticalFlex, Flex, TextSubtitle1, TextSubtitle2 } from "util/styledComponent";
@@ -38,16 +38,22 @@ function Post() {
     const [subTitle, setSubTitle] = useState('여기는 부제목이 올거고 꽤 길 예정이에요. 한 이정도 까지?');
     const [html, setHtml] = useState('여기는 내용이 올거고 html이에요.');
     const [isLoading, setIsLoading] = useState(true);
-    const postRes = API.getPost(params.postId);
-    postRes.then((res) => {
-        if (res.status === 200) {
-            setCategory(convertCategoryObjectsToString(res.data.categories))
-            setTitle(res.data.title.replace('\\', ' '))
-            setSubTitle(res.data.sub_title)
-            setHtml(res.data.html)
-            setIsLoading(false)
-        }
-    })
+
+    useEffect(() => {
+        const postRes = API.getPost(params.postId);
+        postRes.then((res) => {
+            if (res.status === 200) {
+                setCategory(convertCategoryObjectsToString(res.data.categories))
+                setTitle(res.data.title.replace('\\', ' '))
+                setSubTitle(res.data.sub_title)
+                setHtml(res.data.html)
+                setIsLoading(false)
+            }
+        })
+    }, [])
+
+
+
     return (
         <CustomVerticalFlex>
             <TextSubtitle2>[{category}]</TextSubtitle2>
