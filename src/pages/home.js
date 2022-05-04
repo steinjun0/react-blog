@@ -125,25 +125,25 @@ function Home() {
           }}
         >
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-            <ImageWrapper selected={mainImageIndex % 6 === 0} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper onMouseEnter={() => { setMainImageIndex(0) }} selected={mainImageIndex % 6 === 0} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
               <MainImage src={test1}></MainImage>
             </ImageWrapper>
-            <ImageWrapper selected={mainImageIndex % 6 === 1} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper onMouseEnter={() => { setMainImageIndex(1) }} selected={mainImageIndex % 6 === 1} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
               <MainImage src={junProfile}></MainImage>
             </ImageWrapper>
-            <ImageWrapper selected={mainImageIndex % 6 === 2} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper onMouseEnter={() => { setMainImageIndex(2) }} selected={mainImageIndex % 6 === 2} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
               <MainImage src={test2}></MainImage>
             </ImageWrapper>
           </ImagesWrapper>
 
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-            <ImageWrapper selected={mainImageIndex % 6 === 3} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper onMouseEnter={() => { setMainImageIndex(3) }} selected={mainImageIndex % 6 === 3} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
               <MainImage src={test1}></MainImage>
             </ImageWrapper>
-            <ImageWrapper selected={mainImageIndex % 6 === 4} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper onMouseEnter={() => { setMainImageIndex(4) }} selected={mainImageIndex % 6 === 4} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
               <MainImage src={junProfile}></MainImage>
             </ImageWrapper>
-            <ImageWrapper selected={mainImageIndex % 6 === 5} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper onMouseEnter={() => { setMainImageIndex(5) }} selected={mainImageIndex % 6 === 5} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
               <MainImage src={test2}></MainImage>
             </ImageWrapper>
           </ImagesWrapper>
