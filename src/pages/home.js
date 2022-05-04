@@ -22,30 +22,47 @@ const CategoryTitle = styled(NoStyleLink)`
   }
 `;
 
-const ImagesWrapper = styled(Flex)`
+const ImageWrapperCropper = styled(Flex)`
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden;
+`;
+
+
+const ImagesWrapper = styled(Flex)`
+  max-width: 800px;
+  transform: ${(props) => {
+    if (props.hide === 'left') {
+      return 'translateX(-800px)'
+    }
+    else if (props.hide === 'right') {
+      return 'translateX(0)'
+    }
+    else {
+      return 'translateX(0)'
+    }
+  }};
 `
 
 const ImageWrapper = styled(Flex)`
   max-width: 400px;
   max-height: 400px;
   min-width: ${(props) => {
-    return props.main === 'true' ? '400px' : '200px' // undefined라도 무조건 값을 넣어놔야지 re-render가 안일어난다.
+    console.log(props.selected === 'true')
+    return props.selected === 'true' ? '400px' : '200px' // undefined라도 무조건 값을 넣어놔야지 re-render가 안일어난다.
     // 200px 말고 공백으로 넣었어서 트랜지션이 안됐었음
   }};
   min-height: ${(props) => {
-    return props.main === 'true' ? '400px' : '200px'
+    return props.selected === 'true' ? '400px' : '200px'
   }};
   overflow: hidden;
-
   margin-left: auto;
   margin-right: auto;
   &:hover{
     transform: scale(0.95);
   }
-`
+  `
 
 const MainImage = styled('img')`
   width: 400px;
@@ -54,7 +71,7 @@ const MainImage = styled('img')`
   &:hover{
     transform: scale(1.3);
   }
-`
+  `
 
 function Home() {
   const [categoryIndex, setCategoryIndex] = useState(0);
@@ -62,15 +79,18 @@ function Home() {
 
   useEffect(() => {
     const changeMainImage = setInterval(() => {
-      if (mainImageIndex < 3) {
-        setMainImageIndex(mainImageIndex => mainImageIndex + 1)
-      } else {
-        setMainImageIndex(0)
-      }
+      setMainImageIndex(mainImageIndex => mainImageIndex + 1)
     }, 2000);
 
     return () => clearInterval(changeMainImage)
   }, [])
+
+  useEffect(() => {
+    console.log('mainImageIndex', mainImageIndex)
+    if (mainImageIndex >= 6) {
+      setMainImageIndex(0)
+    }
+  }, [mainImageIndex])
   // useEffect(() => {
   //   setTimeout(() => {
   //     setMainImageIndex(1)
@@ -86,17 +106,33 @@ function Home() {
           <CategoryTitle to='/'>Posts</CategoryTitle>
           <CategoryTitle to='/'>Proj.</CategoryTitle>
         </VerticalFlex>
-        <ImagesWrapper>
-          <ImageWrapper main={`${mainImageIndex % 3 === 0}`}>
-            <MainImage src={test1}></MainImage>
-          </ImageWrapper>
-          <ImageWrapper main={`${mainImageIndex % 3 === 1}`}>
-            <MainImage src={junProfile}></MainImage>
-          </ImageWrapper>
-          <ImageWrapper main={`${mainImageIndex % 3 === 2}`}>
-            <MainImage src={test2}></MainImage>
-          </ImageWrapper>
-        </ImagesWrapper>
+        <ImageWrapperCropper>
+          <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper selected={`${mainImageIndex % 6 === 0}`} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+              <MainImage src={test1}></MainImage>
+            </ImageWrapper>
+            <ImageWrapper selected={`${mainImageIndex % 6 === 1}`} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+              <MainImage src={junProfile}></MainImage>
+            </ImageWrapper>
+            <ImageWrapper selected={`${mainImageIndex % 6 === 2}`} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+              <MainImage src={test2}></MainImage>
+            </ImageWrapper>
+          </ImagesWrapper>
+
+          <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+            <ImageWrapper selected={`${mainImageIndex % 6 === 3}`} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+              <MainImage src={test1}></MainImage>
+            </ImageWrapper>
+            <ImageWrapper selected={`${mainImageIndex % 6 === 4}`} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+              <MainImage src={junProfile}></MainImage>
+            </ImageWrapper>
+            <ImageWrapper selected={`${mainImageIndex % 6 === 5}`} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+              <MainImage src={test2}></MainImage>
+            </ImageWrapper>
+          </ImagesWrapper>
+        </ImageWrapperCropper>
+
+
       </Flex>
       <PostCarousel
         categoryIndex={categoryIndex}
