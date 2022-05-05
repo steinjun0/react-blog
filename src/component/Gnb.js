@@ -5,6 +5,7 @@ import { Flex, NoStyleA } from "util/styledComponent";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import logo from 'assets/img/Logo.svg'
+import { Link } from "react-router-dom";
 function Gnb() {
   const GnbCommon = styled(Box)`
     display: flex;
@@ -34,7 +35,9 @@ function Gnb() {
     <GnbCommon style={{
       marginTop: '50px',
     }}>
-      <img src={logo} />
+      <Link to='/'>
+        <img src={logo} />
+      </Link>
 
       {/* <GnbTitle>Stein.log</GnbTitle> */}
       <GnbIconGroup>
