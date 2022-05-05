@@ -1,9 +1,10 @@
 // import styled from "styled-components";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
-import { NoStyleA } from "util/styledComponent";
+import { Flex, NoStyleA } from "util/styledComponent";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import logo from 'assets/img/Logo.svg'
 function Gnb() {
   const GnbCommon = styled(Box)`
     display: flex;
@@ -11,7 +12,7 @@ function Gnb() {
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    color: white;
+    // color: white;
     height: 86px;
     width: 100%;
   `;
@@ -24,22 +25,26 @@ function Gnb() {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    width: 100px;
+    width: 140px;
     // margin-right: 16px;
   `;
 
 
   return (
-    <GnbCommon>
-      <GnbTitle>Stein.log</GnbTitle>
+    <GnbCommon style={{
+      marginTop: '50px',
+    }}>
+      <img src={logo} />
+
+      {/* <GnbTitle>Stein.log</GnbTitle> */}
       <GnbIconGroup>
 
         <NoStyleA href="https://github.com/steinjun0" target="_blank" rel="noreferrer">
-          <GitHubIcon></GitHubIcon>
+          <GitHubIcon fontSize='large'></GitHubIcon>
         </NoStyleA>
 
         <NoStyleA href="https://www.instagram.com/junyoungseok/" target="_blank" rel="noreferrer">
-          <InstagramIcon></InstagramIcon>
+          <InstagramIcon fontSize='large'></InstagramIcon>
         </NoStyleA>
 
       </GnbIconGroup>
