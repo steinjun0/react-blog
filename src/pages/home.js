@@ -1,13 +1,11 @@
 // import logo from "./logo.svg";
 import { styled } from "@mui/material";
-import AboutMe from "component/AboutMe";
-import PostCarousel from "component/PostCarousel/PostCarousel";
 import { useEffect, useState } from "react";
 import { Flex, NoStyleLink, VerticalFlex } from "util/styledComponent";
-import junProfile from "assets/img/junProfile.jpg";
 import test1 from "assets/img/blog-test1.png";
-import test2 from "assets/img/blog-test2.png";
 import API from "API";
+import { ImgWithDefault } from "util/CustomImgWithDefault";
+import { Link } from "react-router-dom";
 
 
 const CategoryTitle = styled(NoStyleLink)`
@@ -29,7 +27,7 @@ const CategoryTitle = styled(NoStyleLink)`
 const ImageWrapperCropper = styled(Flex)`
   max-width: 800px;
   margin-left: auto;
-  margin-right: auto;
+  // margin-right: auto;
   overflow: hidden;
 `;
 
@@ -49,7 +47,8 @@ const ImagesWrapper = styled(Flex)`
   }};
 `
 
-const ImageWrapper = styled(Flex)`
+const ImageWrapper = styled(Link)`
+  display: flex;
   max-width: 400px;
   max-height: 400px;
   min-width: ${(props) => {
@@ -67,14 +66,14 @@ const ImageWrapper = styled(Flex)`
   }
   `
 
-const MainImage = styled('img')`
+const MainImage = styled(ImgWithDefault)`
   width: 400px;
   height: 400px;
   transform: scale(1.05);
   &:hover{
     transform: scale(1.3);
   }
-  `
+`
 
 function Home() {
   const [categoryIndex, setCategoryIndex] = useState(0);
@@ -98,11 +97,7 @@ function Home() {
       setMainImageIndex(0)
     }
   }, [mainImageIndex])
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setMainImageIndex(1)
-  //   }, 1000);
-  // })
+
   const selectedCategoryStyled = {
     color: 'black',
     transform: 'scale(0.95)',
@@ -110,14 +105,14 @@ function Home() {
 
   return (
     <div>
-      {/* <AboutMe categoryIndex={categoryIndex} /> */}
       <Flex
+        style={{
+          marginTop: '200px'
+        }}
         onMouseEnter={() => {
-          console.log('enter', mainImageIndex)
           clearInterval(changeMainImageIntervalIndex)
         }}
         onMouseLeave={() => {
-          console.log('leave', mainImageIndex)
           let intervalIndex = setInterval(
             () => {
               setMainImageIndex(mainImageIndex => mainImageIndex + 1)
@@ -126,13 +121,6 @@ function Home() {
           setChangeMainImageIntervalIndex(intervalIndex)
         }}
       >
-        {/* {
-          postList.map((e) => {
-            console.log('e.thumbnail', e.thumbnail)
-            console.log(API)
-            return e.thumbnail !== '/media/-' && <img src={API.MEDIA_URL + e.thumbnail} alt='tes' />
-          })
-        } */}
         <VerticalFlex>
           <Flex onMouseEnter={() => {
             setMainImageIndex(1)
@@ -159,35 +147,57 @@ function Home() {
         >
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
             {postList.slice(0, 3).map((e, i) => {
-              return (<ImageWrapper key={i} onMouseEnter={() => { setMainImageIndex(i) }} selected={mainImageIndex % 6 === i} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-                <MainImage src={API.MEDIA_URL + e.thumbnail}
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; // prevents looping
-                    currentTarget.src = test1;
-                  }}></MainImage>
-              </ImageWrapper>);
+              return (
+                <ImageWrapper
+                  key={i}
+                  to={`/post/${e.id}`}
+                  onMouseEnter={() => { setMainImageIndex(i) }}
+                  selected={mainImageIndex % 6 === i}
+                  hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+                  <MainImage src={API.MEDIA_URL + e.thumbnail} defaultImgPath={test1} />
+                </ImageWrapper>
+              );
             })}
           </ImagesWrapper>
 
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
             {postList.slice(3, 6).map((e, i) => {
-              return (<ImageWrapper key={i} onMouseEnter={() => { setMainImageIndex(i + 3) }} selected={mainImageIndex % 6 === i + 3} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-                <MainImage src={API.MEDIA_URL + e.thumbnail}
-                  onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; // prevents looping
-                    currentTarget.src = test1;
-                  }}></MainImage>
-              </ImageWrapper>);
-            })}
+              return (
+                <ImageWrapper
+                  key={i}
+                  to={`/post/${e.id}`}
+                  onMouseEnter={() => { setMainImageIndex(i + 3) }}
+                  selected={mainImageIndex % 6 === i + 3}
+                  hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+                  <MainImage src={API.MEDIA_URL + e.thumbnail} defaultImgPath={test1} />
+                </ImageWrapper>
+              );
+            }
+            )}
           </ImagesWrapper>
         </ImageWrapperCropper>
 
-
       </Flex>
-      <PostCarousel
+      {/* <Flex style={{ justifyContent: 'center' }}>
+        <Flex style={{
+          width: '200px',
+          justifyContent: 'space-between',
+          marginTop: '100px',
+        }}>
+          <NoStyleA href="https://github.com/steinjun0" target="_blank" rel="noreferrer">
+            <GitHubIcon style={{ fontSize: "32px" }}></GitHubIcon>
+          </NoStyleA>
+
+          <NoStyleA href="https://www.instagram.com/junyoungseok/" target="_blank" rel="noreferrer">
+            <InstagramIcon style={{ fontSize: "32px" }}></InstagramIcon>
+          </NoStyleA>
+        </Flex>
+      </Flex> */}
+
+      {/* <PostCarousel
         categoryIndex={categoryIndex}
         setCategoryIndex={setCategoryIndex}
-      />
+      /> */}
     </div >
   );
 }
