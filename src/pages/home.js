@@ -81,29 +81,17 @@ function Home() {
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [changeMainImageIntervalIndex, setChangeMainImageIntervalIndex] = useState(-1);
   const [postList, setPostList] = useState([]);
-  useEffect(() => {
+  const onMount = () => {
     let intervalIndex = setInterval(() => {
       setMainImageIndex(mainImageIndex => mainImageIndex + 1)
     }, 2000);
     API.getPostList().then((res) => {
-      if (res.status === 200) {
-        let data = res.data
-        let thumbnails = []
-        res.data.map(async (e) => {
-          if (e.thumbnail !== '/media/-') {
-            const thumbnail = await API.getMedia(e.thumbnail);
-            thumbnails.push(thumbnail.data)
-          } else {
-            thumbnails.push('no_thumbnail')
-          }
-        })
-
-        setPostList(data)
-      }
+      res.status === 200 && setPostList(res.data)
     })
     setChangeMainImageIntervalIndex(intervalIndex)
     return () => clearInterval(intervalIndex)
-  }, [])
+  }
+  useEffect(onMount, [])
 
   useEffect(() => {
     if (mainImageIndex >= 6) {
@@ -125,9 +113,11 @@ function Home() {
       {/* <AboutMe categoryIndex={categoryIndex} /> */}
       <Flex
         onMouseEnter={() => {
+          console.log('enter', mainImageIndex)
           clearInterval(changeMainImageIntervalIndex)
         }}
         onMouseLeave={() => {
+          console.log('leave', mainImageIndex)
           let intervalIndex = setInterval(
             () => {
               setMainImageIndex(mainImageIndex => mainImageIndex + 1)
@@ -144,42 +134,51 @@ function Home() {
           })
         } */}
         <VerticalFlex>
-          <CategoryTitle
-            onMouseEnter={() => {
-              setMainImageIndex(1)
-            }}
-            style={mainImageIndex < 3 ? selectedCategoryStyled : {}} to='/'>Posts</CategoryTitle>
-          <CategoryTitle
-            onMouseEnter={() => {
-              setMainImageIndex(4)
-            }}
-            style={mainImageIndex >= 3 ? selectedCategoryStyled : {}} to='/'>Proj.</CategoryTitle>
+          <Flex onMouseEnter={() => {
+            setMainImageIndex(1)
+          }}
+          >
+            <CategoryTitle
+              style={mainImageIndex < 3 ? selectedCategoryStyled : {}}
+              to='/'>
+              Posts
+            </CategoryTitle>
+          </Flex>
+          <Flex onMouseEnter={() => {
+            setMainImageIndex(4)
+          }}>
+            <CategoryTitle
+              style={mainImageIndex >= 3 ? selectedCategoryStyled : {}} to='/'>
+              Proj.
+            </CategoryTitle>
+          </Flex>
+
         </VerticalFlex>
         <ImageWrapperCropper
 
         >
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-            <ImageWrapper onMouseEnter={() => { setMainImageIndex(0) }} selected={mainImageIndex % 6 === 0} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-              <MainImage src={test1}></MainImage>
-            </ImageWrapper>
-            <ImageWrapper onMouseEnter={() => { setMainImageIndex(1) }} selected={mainImageIndex % 6 === 1} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-              <MainImage src={junProfile}></MainImage>
-            </ImageWrapper>
-            <ImageWrapper onMouseEnter={() => { setMainImageIndex(2) }} selected={mainImageIndex % 6 === 2} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-              <MainImage src={test2}></MainImage>
-            </ImageWrapper>
+            {postList.slice(0, 3).map((e, i) => {
+              return (<ImageWrapper key={i} onMouseEnter={() => { setMainImageIndex(i) }} selected={mainImageIndex % 6 === i} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+                <MainImage src={API.MEDIA_URL + e.thumbnail}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = test1;
+                  }}></MainImage>
+              </ImageWrapper>);
+            })}
           </ImagesWrapper>
 
           <ImagesWrapper hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-            <ImageWrapper onMouseEnter={() => { setMainImageIndex(3) }} selected={mainImageIndex % 6 === 3} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-              <MainImage src={test1}></MainImage>
-            </ImageWrapper>
-            <ImageWrapper onMouseEnter={() => { setMainImageIndex(4) }} selected={mainImageIndex % 6 === 4} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-              <MainImage src={junProfile}></MainImage>
-            </ImageWrapper>
-            <ImageWrapper onMouseEnter={() => { setMainImageIndex(5) }} selected={mainImageIndex % 6 === 5} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
-              <MainImage src={test2}></MainImage>
-            </ImageWrapper>
+            {postList.slice(3, 6).map((e, i) => {
+              return (<ImageWrapper key={i} onMouseEnter={() => { setMainImageIndex(i + 3) }} selected={mainImageIndex % 6 === i + 3} hide={`${mainImageIndex >= 3 ? 'left' : 'right'}`}>
+                <MainImage src={API.MEDIA_URL + e.thumbnail}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = test1;
+                  }}></MainImage>
+              </ImageWrapper>);
+            })}
           </ImagesWrapper>
         </ImageWrapperCropper>
 
