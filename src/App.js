@@ -10,6 +10,9 @@ import "./App.css";
 import Gnb from "./component/Gnb";
 import Home from 'pages/home';
 import 'assets/css/pageTransition.css'
+
+// https://stackoverflow.com/questions/61089053/animating-route-transitions-with-csstransitiongroup-and-react-router-v6
+// react v6 transition-group 적용 방법
 function App() {
   return (
     <div className="AppWrapper">
